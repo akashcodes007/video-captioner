@@ -4,7 +4,13 @@ import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { motion } from 'framer-motion';
 
-export default function VideoPlayer({ videoUrl, captions }: { videoUrl: string, captions: any[] }) {
+interface Caption {
+  text: string;
+  start: string;
+  end: string;
+}
+
+export default function VideoPlayer({ videoUrl, captions }: { videoUrl: string, captions: Caption[] }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const playerRef = useRef<ReactPlayer>(null);

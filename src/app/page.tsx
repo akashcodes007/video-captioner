@@ -6,12 +6,18 @@ import { motion } from 'framer-motion';
 import validateURL from '../utils/validateURL';
 import { useSnackbar } from 'notistack';
 
+interface Caption {
+  text: string;
+  start: string;
+  end: string;
+}
+
 export default function Home() {
   const { enqueueSnackbar } = useSnackbar();
-  const [videoUrl, setVideoUrl] = useState('');
-  const [captions, setCaptions] = useState([]);
-  const [inputUrl, setInputUrl] = useState('');
-  const [videoError, setVideoError] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string>('');
+  const [captions, setCaptions] = useState<Caption[]>([]);
+  const [inputUrl, setInputUrl] = useState<string>('');
+  const [videoError, setVideoError] = useState<boolean>(false);
 
   const handleUrlSubmit = () => {
     if (validateURL(inputUrl)) {

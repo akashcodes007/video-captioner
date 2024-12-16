@@ -1,31 +1,40 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-export default function CaptionInput({ captions, setCaptions }: { captions: any[], setCaptions: any }) {
-  const [currentTime, setCurrentTime] = useState(0);
+interface Caption {
+  text: string;
+  start: string;
+  end: string;
+}
 
+interface CaptionInputProps {
+  captions: Caption[];
+  setCaptions: React.Dispatch<React.SetStateAction<Caption[]>>;
+}
+
+export default function CaptionInput({ captions, setCaptions }: CaptionInputProps) {
   const addCaption = () => {
-    setCaptions([...captions, { text: '', start: '', end: '' }]);
+    setCaptions((prevCaptions) => [...prevCaptions, { text: '', start: '', end: '' }]);
   };
 
-  const updateCaption = (index: number, field: string, value: string) => {
-    const updated = [...captions];
-    updated[index][field] = value;
-    setCaptions(updated);
+  const updateCaption = (index: number, field: keyof Caption, value: string) => {
+    setCaptions((prevCaptions) => {
+      const updated = [...prevCaptions];
+      updated[index][field] = value;
+      return updated;
+    });
   };
 
   const removeCaption = (index: number) => {
-    const updated = captions.filter((_, i) => i !== index);
-    setCaptions(updated);
+    setCaptions((prevCaptions) => prevCaptions.filter((_, i) => i !== index));
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       // This is a placeholder for updating the current time
       // In a real application, you would get this from the video player
-      setCurrentTime(prevTime => prevTime + 1);
     }, 1000);
 
     return () => clearInterval(interval);
